@@ -1,6 +1,7 @@
-import InputField from "frontend/src/components/ui/InputField";
 import React from "react";
 import { Link } from "react-router-dom";
+import InputField from "../../components/ui/InputField";
+// import ButtonForm from "../../components/ui/ButtonForm";
 
 export default function Register() {
     return (

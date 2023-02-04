@@ -1,8 +1,14 @@
 import React from "react";
-import InputField from "../../components/ui/InputField";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
+import { onChangeValue } from "../../store/login/reducer/loginSlice";
+import InputField from "../../components/ui/InputField";
+import ButtonForm from "../../components/ui/ButtonForm";
 
 export default function Login() {
+    const loginFormData = useSelector((state) => state.login)
+    const dispatch = useDispatch();
+
     return (
         <div className="flex items-center justify-center h-screen bg-primary">
             <div className="container mx-auto px-4 h-full">
@@ -14,34 +20,20 @@ export default function Login() {
                                     <small>Sign in</small>
                                 </div>
                                 <form>
-                                    <div className="relative w-full mb-3">
-                                        <label
-                                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                            htmlFor="grid-password"
-                                        >
-                                            Email
-                                        </label>
-                                        <input
-                                            type="email"
-                                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                            placeholder="Email"
-                                        />
-                                    </div>
-                                    <InputField title={"Username"} />
-
-                                    <div className="relative w-full mb-3">
-                                        <label
-                                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                            htmlFor="grid-password"
-                                        >
-                                            Password
-                                        </label>
-                                        <input
-                                            type="password"
-                                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                            placeholder="Password"
-                                        />
-                                    </div>
+                                    <InputField
+                                        title={"Email"}
+                                        placeholder={"email@example.com"}
+                                        value={loginFormData.email}
+                                        type={'email'}
+                                        item={'email'}
+                                        onChangeData={(payload) => dispatch(onChangeValue(payload))} />
+                                    <InputField
+                                        title={"Password"}
+                                        placeholder={"Your password"}
+                                        value={loginFormData.password}
+                                        type={'password'}
+                                        item={'password'}
+                                        onChangeData={(payload) => dispatch(onChangeValue(payload))} />
                                     <div>
                                         <label className="inline-flex items-center cursor-pointer">
                                             <input
@@ -56,12 +48,10 @@ export default function Login() {
                                     </div>
 
                                     <div className="text-center mt-6">
-                                        <button
-                                            className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150 bg-primary hover:bg-red"
-                                            type="button"
-                                        >
-                                            Sign In
-                                        </button>
+                                        <ButtonForm
+                                            title={'SIGN IN'}
+                                            action={() => console.log('test')}
+                                        />
                                     </div>
                                 </form>
                             </div>
@@ -77,7 +67,7 @@ export default function Login() {
                                 </a>
                             </div>
                             <div className="w-1/2 text-right">
-                                <Link to="/auth/register" className="text-white">
+                                <Link to="/register" className="text-white">
                                     <small>Create new account</small>
                                 </Link>
                             </div>
