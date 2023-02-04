@@ -50,7 +50,7 @@ class AuthController extends Controller
                 ],
                 'remember' => 'boolean'
             ]);
-
+           
             $remember = $credentials['remember'] ?? false;
             unset($credentials['remember']);
 
@@ -66,6 +66,29 @@ class AuthController extends Controller
                 'user' => $user,
                 'token' => $token
             ]);
+        } catch (\Exception $e) {
+            return response([
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function confirmPassword(Request $request) {
+        try {
+            $credentials = $request->validate([
+                'email' => 'required|email|string|exists:users,email',
+                'password' => [
+                    'required'
+                ],
+            ]);
+
+            if (!Auth::attempt($credentials, false)) {
+                return response([
+                    'error' => 'The Provided credentials are not correct'
+                ], 422);
+            }
+
+            return response(['message' => 'Confirm password successfully'], 200);
         } catch (\Exception $e) {
             return response([
                 'error' => $e->getMessage()
