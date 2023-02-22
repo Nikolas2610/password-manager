@@ -1,9 +1,19 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import InputField from "../../components/ui/InputField";
-// import ButtonForm from "../../components/ui/ButtonForm";
+import { InputField } from "../../components/ui/InputField";
+import { onChangeValue, _register } from "../../store/register/reducer/registerSlicer";
+import ButtonForm, { BUTTON } from "../../components/ui/ButtonForm";
 
 export default function Register() {
+    const registerFormData = useSelector((state) => state.register);
+    const dispatch = useDispatch();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(_register());
+    }
+
     return (
         <div className="flex items-center justify-center h-screen bg-primary">
             <div className="container mx-auto px-4 h-full">
@@ -14,55 +24,48 @@ export default function Register() {
                                 <div className="text-blueGray-400 text-center text-white text-3xl mb-3 font-bold">
                                     <small>Register</small>
                                 </div>
-                                <form>
-                                    <div className="relative w-full mb-3">
-                                        <label
-                                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                            htmlFor="grid-password"
-                                        >
-                                            Email
-                                        </label>
-                                        <input
-                                            type="email"
-                                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                            placeholder="Email"
-                                        />
-                                    </div>
-                                    <InputField />
-
-                                    <div className="relative w-full mb-3">
-                                        <label
-                                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                                            htmlFor="grid-password"
-                                        >
-                                            Password
-                                        </label>
-                                        <input
-                                            type="password"
-                                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                            placeholder="Password"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="inline-flex items-center cursor-pointer">
-                                            <input
-                                                id="customCheckLogin"
-                                                type="checkbox"
-                                                className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                                            />
-                                            <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                                                Remember me
-                                            </span>
-                                        </label>
-                                    </div>
-
+                                <form onSubmit={handleSubmit}>
+                                    <InputField
+                                        title={"Username"}
+                                        placeholder={"IronMan"}
+                                        value={registerFormData.form.username}
+                                        type={'text'}
+                                        item={'username'}
+                                        onChangeData={(payload) => dispatch(onChangeValue(payload))}
+                                        errors={registerFormData.errors?.username}
+                                    />
+                                    <InputField
+                                        title={"Email"}
+                                        placeholder={"email@example.com"}
+                                        value={registerFormData.form.email}
+                                        type={'email'}
+                                        item={'email'}
+                                        onChangeData={(payload) => dispatch(onChangeValue(payload))}
+                                        errors={registerFormData.errors?.email}
+                                    />
+                                    <InputField
+                                        title={"Password"}
+                                        placeholder={"******"}
+                                        value={registerFormData.form.password}
+                                        type={'password'}
+                                        item={'password'}
+                                        onChangeData={(payload) => dispatch(onChangeValue(payload))}
+                                        errors={registerFormData.errors?.password}
+                                    />
+                                    <InputField
+                                        title={"Confirm Password"}
+                                        placeholder={"******"}
+                                        value={registerFormData.form.password}
+                                        type={'password'}
+                                        item={'confirmPassword'}
+                                        onChangeData={(payload) => dispatch(onChangeValue(payload))}
+                                        errors={registerFormData.errors?.confirmPassword}
+                                    />
                                     <div className="text-center mt-6">
-                                        <button
-                                            className="bg-blueGray-800 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150 bg-primary hover:bg-red"
-                                            type="button"
-                                        >
-                                           Register
-                                        </button>
+                                        <ButtonForm
+                                            title={'Register'}
+                                            type={BUTTON.SUBMIT}
+                                            loading={registerFormData.loading} />
                                     </div>
                                 </form>
                             </div>

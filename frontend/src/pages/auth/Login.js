@@ -1,13 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
-import { onChangeValue } from "../../store/login/reducer/loginSlice";
-import InputField from "../../components/ui/InputField";
+import { onChangeValue, _login } from "../../store/login/reducer/loginSlice";
+import { InputField } from "../../components/ui/InputField";
 import ButtonForm from "../../components/ui/ButtonForm";
 
 export default function Login() {
+
     const loginFormData = useSelector((state) => state.login)
     const dispatch = useDispatch();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(_login())
+    }
 
     return (
         <div className="flex items-center justify-center h-screen bg-primary">
@@ -19,21 +25,25 @@ export default function Login() {
                                 <div className="text-blueGray-400 text-center text-white text-3xl mb-3 font-bold">
                                     <small>Sign in</small>
                                 </div>
-                                <form>
+                                <form onSubmit={handleSubmit}>
                                     <InputField
                                         title={"Email"}
                                         placeholder={"email@example.com"}
-                                        value={loginFormData.email}
-                                        type={'email'}
+                                        value={loginFormData.form.email}
+                                        type={'text'}
                                         item={'email'}
-                                        onChangeData={(payload) => dispatch(onChangeValue(payload))} />
+                                        onChangeData={(payload) => dispatch(onChangeValue(payload))}
+                                        errors={loginFormData.errors?.email}
+                                    />
                                     <InputField
                                         title={"Password"}
                                         placeholder={"Your password"}
-                                        value={loginFormData.password}
+                                        value={loginFormData.form.password}
                                         type={'password'}
                                         item={'password'}
-                                        onChangeData={(payload) => dispatch(onChangeValue(payload))} />
+                                        onChangeData={(payload) => dispatch(onChangeValue(payload))}
+                                        errors={loginFormData.errors?.password}
+                                    />
                                     <div>
                                         <label className="inline-flex items-center cursor-pointer">
                                             <input
@@ -50,7 +60,8 @@ export default function Login() {
                                     <div className="text-center mt-6">
                                         <ButtonForm
                                             title={'SIGN IN'}
-                                            action={() => console.log('test')}
+                                            type={'submit'}
+                                            action={() => dispatch(_login())}
                                         />
                                     </div>
                                 </form>
