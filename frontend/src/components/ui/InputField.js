@@ -1,30 +1,36 @@
 import React from "react"
+import { FormControl, Input, FormErrorMessage, FormLabel, Box } from '@chakra-ui/react'
 
-export const InputField = React.forwardRef((props, ref) => (
-    <>
-        <div className="relative w-full mb-3">
-            {props.showTitle && props.showTitle === true ?
-                <label
-                    className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                    htmlFor="grid-password">
-                    {props.title}
-                </label>
-                : null}
+export default function InputField({ title, placeholder, value, type, item, onChangeData, errors }) {
+    return (
+        <Box marginBottom={'3'}>
+            <FormControl isInvalid={!!errors}>
+                {title && <FormLabel color={'white'}>{title}</FormLabel>}
+                <Input
+                    variant='outline'
+                    placeholder={placeholder}
+                    defaultValue={value}
+                    onChange={(event) => onChangeData({
+                        key: item,
+                        data: event.target.value
+                    })}
+                    errorBorderColor='red.300'
+                    bgColor={'white'}
+                    type={type}
+                    marginBottom={'2'}
+                    focusBorderColor={'blue.400'}
+                />
+                {errors &&
+                    errors.map((error, index) => (
+                        <FormErrorMessage key={`${item}-${index}`}>{error}</FormErrorMessage>
+                    ))}
+            </FormControl>
+        </Box>
+    )
+}
 
-            <input
-                ref={ref}
-                name={props.item}
-                type={props.type}
-                className={`border px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${props.errors ? 'border-red' : ''}`}
-                placeholder={props.placeholder}
-                defaultValue={props.value}
-                onChange={(event) => props.onChangeData({ key: props.item, data: event.target.value })}
-            />
-        </div>
-        {props.errors &&
-            props.errors.map((error, index) => (
-                <div className="text-red mb-3" key={index}>{error}</div>
-            ))
-        }
-    </>
-))
+export const INPUT = {
+    TEXT: 'text',
+    PASSWORD: 'password',
+    EMAIL: 'email'
+}

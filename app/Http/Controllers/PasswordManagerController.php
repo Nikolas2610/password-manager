@@ -60,6 +60,20 @@ class PasswordManagerController extends Controller
         return $passwordManager;
     }
 
+    // TEMP
+    public function getUserFullPasswordData()
+    {
+        $user = Auth::user();
+
+        $passwordManager = Password::where('user_id', $user->id)->get();
+
+        foreach($passwordManager as $item) {
+            $item->password = Crypt::decryptString($item->password);
+        }
+
+        return $passwordManager;
+    }
+
     public function showPassword(Request $request)
     {
         $validatedData = $request->validate([

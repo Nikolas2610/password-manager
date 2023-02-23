@@ -1,5 +1,5 @@
 export const registerRules = {
-    username: {
+    name: {
         isRequired: true,
         isMinLength: 4,
     }, 
@@ -10,7 +10,7 @@ export const registerRules = {
     password: {
         isStrongPassword: true,
     },
-    confirmPassword: {
+    password_confirmation: {
         isRequired: true,
         isSame: 'password'
     },

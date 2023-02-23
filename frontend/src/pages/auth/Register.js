@@ -1,17 +1,18 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { InputField } from "../../components/ui/InputField";
-import { onChangeValue, _register } from "../../store/register/reducer/registerSlicer";
+import InputField, { INPUT } from "../../components/ui/InputField";
+import { onChangeValue } from "../../store/register/reducer/registerSlicer";
 import ButtonForm, { BUTTON } from "../../components/ui/ButtonForm";
+import { Alert, Box, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
 
-export default function Register() {
+export default function Register({ onSubmit }) {
     const registerFormData = useSelector((state) => state.register);
     const dispatch = useDispatch();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(_register());
+        onSubmit(registerFormData.form);
     }
 
     return (
@@ -25,54 +26,65 @@ export default function Register() {
                                     <small>Register</small>
                                 </div>
                                 <form onSubmit={handleSubmit}>
+                                    {registerFormData.backendErrors &&
+                                        <Alert status='error' mb={'3'}>
+                                            <AlertIcon />
+                                            <AlertTitle>Form validation error!</AlertTitle>
+                                            <AlertDescription>{registerFormData.backendErrors.error}</AlertDescription>
+                                        </Alert>
+                                    }
                                     <InputField
-                                        title={"Username"}
+                                        title={"Name"}
                                         placeholder={"IronMan"}
-                                        value={registerFormData.form.username}
-                                        type={'text'}
-                                        item={'username'}
+                                        value={registerFormData.form.name}
+                                        type={INPUT.TEXT}
+                                        item={'name'}
                                         onChangeData={(payload) => dispatch(onChangeValue(payload))}
-                                        errors={registerFormData.errors?.username}
+                                        errors={registerFormData.errors?.name}
                                     />
+
                                     <InputField
                                         title={"Email"}
                                         placeholder={"email@example.com"}
                                         value={registerFormData.form.email}
-                                        type={'email'}
+                                        type={INPUT.EMAIL}
                                         item={'email'}
                                         onChangeData={(payload) => dispatch(onChangeValue(payload))}
                                         errors={registerFormData.errors?.email}
                                     />
+
                                     <InputField
                                         title={"Password"}
                                         placeholder={"******"}
                                         value={registerFormData.form.password}
-                                        type={'password'}
+                                        type={INPUT.PASSWORD}
                                         item={'password'}
                                         onChangeData={(payload) => dispatch(onChangeValue(payload))}
                                         errors={registerFormData.errors?.password}
                                     />
+
                                     <InputField
                                         title={"Confirm Password"}
                                         placeholder={"******"}
                                         value={registerFormData.form.password}
-                                        type={'password'}
-                                        item={'confirmPassword'}
+                                        type={INPUT.PASSWORD}
+                                        item={'password_confirmation'}
                                         onChangeData={(payload) => dispatch(onChangeValue(payload))}
-                                        errors={registerFormData.errors?.confirmPassword}
+                                        errors={registerFormData.errors?.password_confirmation}
                                     />
-                                    <div className="text-center mt-6">
+
+                                    <Box marginTop={'6'}>
                                         <ButtonForm
                                             title={'Register'}
                                             type={BUTTON.SUBMIT}
                                             loading={registerFormData.loading} />
-                                    </div>
+                                    </Box>
                                 </form>
                             </div>
                         </div>
                         <div className="flex flex-wrap mt-6 relative">
                             <div className="text-center">
-                                <Link to="/auth/login" className="text-white">
+                                <Link to="/login" className="text-white">
                                     <small>Already have account?</small>
                                 </Link>
                             </div>

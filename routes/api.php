@@ -28,6 +28,9 @@ Route::middleware(['auth:sanctum', 'private_app_key'])->group(function () {
     Route::put('/password/{password}', [PasswordManagerController::class, 'update']);
     Route::delete('/password/{password}', [PasswordManagerController::class, 'destroy']);
 
+    // Temp
+    Route::get('/get-full-user-password-data', [PasswordManagerController::class, 'getUserFullPasswordData']);
+
 });
 
 Route::middleware(['private_app_key'])->group(function () {

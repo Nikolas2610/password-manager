@@ -1,18 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux'
-import { onChangeValue, _login } from "../../store/login/reducer/loginSlice";
-import { InputField } from "../../components/ui/InputField";
-import ButtonForm from "../../components/ui/ButtonForm";
+import { onChangeValue } from "../../store/login/reducer/loginSlice";
+import InputField from "../../components/ui/InputField";
+import ButtonForm, { BUTTON } from "../../components/ui/ButtonForm";
+import { Alert, Box, AlertIcon, AlertTitle, AlertDescription } from "@chakra-ui/react";
 
-export default function Login() {
-
+export default function Login({ onSubmit }) {
     const loginFormData = useSelector((state) => state.login)
     const dispatch = useDispatch();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        dispatch(_login())
+        onSubmit(loginFormData.form)
     }
 
     return (
@@ -26,6 +26,14 @@ export default function Login() {
                                     <small>Sign in</small>
                                 </div>
                                 <form onSubmit={handleSubmit}>
+                                    {loginFormData.backendErrors &&
+                                        <Alert status='error' mb={'3'}>
+                                            <AlertIcon />
+                                            <AlertTitle>Form validation error!</AlertTitle>
+                                            <AlertDescription>{loginFormData.backendErrors.error}</AlertDescription>
+                                        </Alert>
+                                    }
+
                                     <InputField
                                         title={"Email"}
                                         placeholder={"email@example.com"}
@@ -44,26 +52,14 @@ export default function Login() {
                                         onChangeData={(payload) => dispatch(onChangeValue(payload))}
                                         errors={loginFormData.errors?.password}
                                     />
-                                    <div>
-                                        <label className="inline-flex items-center cursor-pointer">
-                                            <input
-                                                id="customCheckLogin"
-                                                type="checkbox"
-                                                className="form-checkbox border-0 rounded text-blueGray-700 ml-1 w-5 h-5 ease-linear transition-all duration-150"
-                                            />
-                                            <span className="ml-2 text-sm font-semibold text-blueGray-600">
-                                                Remember me
-                                            </span>
-                                        </label>
-                                    </div>
 
-                                    <div className="text-center mt-6">
+                                    <Box marginTop={'6'}>
                                         <ButtonForm
                                             title={'SIGN IN'}
-                                            type={'submit'}
-                                            action={() => dispatch(_login())}
+                                            type={BUTTON.SUBMIT}
+                                            loading={loginFormData.loading}
                                         />
-                                    </div>
+                                    </Box>
                                 </form>
                             </div>
                         </div>

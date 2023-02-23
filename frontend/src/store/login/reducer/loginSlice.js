@@ -1,15 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { loginRules } from '../../../utils/validation/rules/login'
 import { validateObject } from '../../../utils/validation/validation'
+import { loginAsync, setErrors, toggleSubmit } from '../actions/login.actions';
 
 const initialState = {
   form: {
-    email: '',
-    password: '',
+    email: 'psillovits@gmail.com',
+    password: 'Nikolas-0',
   },
   submit: false,
   loading: false,
-  errors: {}
+  errors: {}, 
+  backendErrors: null
 }
 
 const rules = loginRules;
@@ -28,17 +30,30 @@ export const loginSlice = createSlice({
         state.errors = validateObject(state.form, rules);
       }
     },
-    _login: (state, action) => {
-      state.submit = true;
-      state.errors = validateObject(state.form, rules);
-      if (Object.keys(state.errors).length === 0) {
-        // Axios login
-        console.log('No errors found');
-      } else {
-        console.log('Errors found');
-      }
-    }
   },
+  extraReducers: (builder) => {
+    builder
+    .addCase(loginAsync.pending, (state) => {
+      state.loading = true;
+    })
+      .addCase(loginAsync.fulfilled, (state) => {
+        state.backendErrors = null;
+        state.submit = false;
+        state.loading = false;
+        state.form.email = '';
+        state.form.password = '';
+      })
+      .addCase(loginAsync.rejected, (state, action) => {
+        state.loading = false;
+        state.backendErrors = action.payload || { error: action.error.message };
+      })
+      .addCase(setErrors, (state, action) => {
+        state.errors = action.payload.errors;
+      })
+      .addCase(toggleSubmit, (state, action) => {
+        state.submit = action.payload.data;
+      })
+  }
 })
 
 // Action creators are generated for each case reducer function
