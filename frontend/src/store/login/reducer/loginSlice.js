@@ -5,7 +5,7 @@ import { loginAsync, setErrors, toggleSubmit } from '../actions/login.actions';
 
 const initialState = {
   form: {
-    email: 'psillovits@gmail.com',
+    email: 'psillovits1@gmail.com',
     password: 'Nikolas-0',
   },
   submit: false,

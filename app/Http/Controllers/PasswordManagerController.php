@@ -49,13 +49,15 @@ class PasswordManagerController extends Controller
 
         $passwordManager = Password::select(
             'id',
-            'user_id',
             'title',
             'username',
             'website',
             'notes',
             'created_at'
-        )->where('user_id', $user->id)->get();
+        )
+            ->where('user_id', $user->id)
+            ->orderByDesc('created_at')
+            ->get();
 
         return $passwordManager;
     }
@@ -67,7 +69,7 @@ class PasswordManagerController extends Controller
 
         $passwordManager = Password::where('user_id', $user->id)->get();
 
-        foreach($passwordManager as $item) {
+        foreach ($passwordManager as $item) {
             $item->password = Crypt::decryptString($item->password);
         }
 
