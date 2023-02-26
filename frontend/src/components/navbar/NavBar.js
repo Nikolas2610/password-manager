@@ -7,7 +7,7 @@ import { selectUser } from '../../store/user/reducer/userSlice'
 import NavItem from './NavItem'
 
 export default function NavBar() {
-    const [navItems, setNavItems] = useState([
+    const [navItems] = useState([
         { id: 1, name: 'About', path: '/about', hideLogin: false, hideLogout: false },
         { id: 2, name: 'Dashboard', path: '/dashboard', hideLogin: false, hideLogout: true },
         { id: 3, name: 'Login', path: '/login', hideLogin: true, hideLogout: false },
@@ -41,6 +41,7 @@ export default function NavBar() {
                                     </NavItem>
                                 );
                             }
+                            return null;
                         })}
                         {isUserLogged &&
                             <Box transition={'background-color 200ms linear'} rounded={'md'} cursor={'pointer'} px={'4'} py={'2'} _hover={{ backgroundColor: 'white', color: 'black' }} onClick={handleLogout}>
