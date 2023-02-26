@@ -14,7 +14,7 @@ import InputField, { INPUT } from '../ui/InputField';
 import { onChangeValue } from '../../store/passwords/reducer/passwords.reducer';
 
 
-export default function ModalForm({ isOpen, onSubmit, onModal }) {
+export default function ModalForm({ isOpen, onSubmit, onModal, onUpdate }) {
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
     const modalData = useSelector((state) => state.passwords.modal);
@@ -23,7 +23,9 @@ export default function ModalForm({ isOpen, onSubmit, onModal }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(modalData.form);
+        modalData.selectedPassword
+            ? onUpdate(modalData.selectedPassword, modalData.form)
+            : onSubmit(modalData.form);
     }
 
     return (
@@ -37,7 +39,8 @@ export default function ModalForm({ isOpen, onSubmit, onModal }) {
             >
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Create a password</ModalHeader>
+                    <ModalHeader>
+                        {modalData.selectedPassword ? 'Edit password' : 'Create A Password'}</ModalHeader>
                     <ModalCloseButton />
                     <form onSubmit={handleSubmit}>
                         <ModalBody pb={6}>
@@ -96,7 +99,12 @@ export default function ModalForm({ isOpen, onSubmit, onModal }) {
                         </ModalBody>
 
                         <ModalFooter>
-                            <Button colorScheme='blue' mr={3} type={'submit'}>
+                            <Button
+                                colorScheme='blue'
+                                mr={3}
+                                type={'submit'}
+                                isLoading={modalData.form.loading}
+                            >
                                 Save
                             </Button>
                             <Button onClick={() => onModal(false)}>Cancel</Button>

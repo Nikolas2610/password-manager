@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Flex, Grid, GridItem, Heading, Image, Text, useDisclosure } from '@chakra-ui/react'
+import { Alert, Box, Button, Flex, Grid, GridItem, Heading, Image, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import personIcon from '../../assets/icons/person-fill.svg'
 import { LockIcon, EditIcon, DeleteIcon, AddIcon } from '@chakra-ui/icons'
@@ -8,18 +8,16 @@ import { fetchUserPasswords } from '../../store/passwords/actions/passwords.acti
 import Loading from '../../components/Loading'
 import DeleteModal from '../../components/modal/DeleteModal'
 
-export default function Dashboard({ onSubmit, onModal, onDelete, onDeleteModal }) {
+export default function Dashboard({ onSubmit, onModal, onDelete, onDeleteModal, onEditModal, onUpdate }) {
   const [hover, setHover] = useState(null);
   const isOpen = useSelector((state) => state.passwords.modal.isOpen);
   const isDeleteOpen = useSelector((state) => state.passwords.delete.isOpen);
   const passwords = useSelector((state) => state.passwords)
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(fetchUserPasswords());
-  }, [0]);
-  const openModal = () => {
-    onModal(true);
-  }
+  }, [dispatch]);
 
   return (
     <>
@@ -32,6 +30,7 @@ export default function Dashboard({ onSubmit, onModal, onDelete, onDeleteModal }
             isOpen={isOpen}
             onSubmit={onSubmit}
             onModal={onModal}
+            onUpdate={onUpdate}
           />
           <DeleteModal
             isOpen={isDeleteOpen}
@@ -80,7 +79,9 @@ export default function Dashboard({ onSubmit, onModal, onDelete, onDeleteModal }
                             <EditIcon
                               cursor={'pointer'}
                               boxSize={'6'}
-                              _hover={{ color: 'black' }} />
+                              _hover={{ color: 'black' }}
+                              onClick={() => onEditModal(item)}
+                              />
                             <DeleteIcon
                               onClick={() => onDeleteModal(true, item.id)}
                               cursor={'pointer'}

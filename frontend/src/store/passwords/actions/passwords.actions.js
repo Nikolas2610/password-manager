@@ -63,16 +63,6 @@ export const deletePassword = createAsyncThunk('passwords/deletePassword',
         }
     })
 
-export const getPasswordById = createAsyncThunk('passwords/getPasswordById',
-    async (id, { rejectWithValue }) => {
-        try {
-            const response = await axiosAuth.post('/showPassword', { id: id });
-            return response.data;
-        } catch (error) {
-            return rejectWithValue(error.response.data)
-        }
-    })
-
 export const setValuesToModal = createAction('passwords/setValuesToModal', (data) => {
     return {
         payload: {
@@ -80,4 +70,14 @@ export const setValuesToModal = createAction('passwords/setValuesToModal', (data
         }
     }
 })
+
+export const updatePassword = createAsyncThunk('passwords/updatePassword',
+    async (data, { rejectWithValue }) => {
+        try {
+            const response = await axiosAuth.put('/password/' + data.id, data.item);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    })
 

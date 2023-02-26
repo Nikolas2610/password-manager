@@ -22,7 +22,7 @@ export default function RootLayout() {
         if (token) {
             dispatch(userLogged());
         }
-    }, [0])
+    }, [dispatch])
 
     return (
         <>
