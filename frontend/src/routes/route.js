@@ -15,16 +15,14 @@ import DashboardContainer from "../store/passwords/container/dashboard.container
 export const router = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<RootLayout />}>
-            {/* <Route element={<CheckAuth />}> */}
-                <Route index element={<Home />} />
-                <Route path="about" element={<About />} />
-                <Route path="login" element={<LoginContainer />} />
-                <Route path="register" element={<RegisterContainer />} />
+            <Route index element={<Home />} />
+            <Route path="about" element={<About />} />
+            <Route path="login" element={<LoginContainer />} />
+            <Route path="register" element={<RegisterContainer />} />
 
-                <Route element={<ProtectedRoutes />}>
-                    <Route path="dashboard" element={<DashboardContainer />} />
-                </Route>
-            {/* </Route> */}
+            <Route element={<ProtectedRoutes />}>
+                <Route path="dashboard" element={<DashboardContainer />} />
+            </Route>
         </Route>
     )
 )
