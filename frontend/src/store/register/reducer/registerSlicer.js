@@ -5,10 +5,10 @@ import { registerAsync, setErrors, toggleSubmit } from '../actions/register.acti
 
 const initialState = {
   form: {
-    name: 'nikolas',
-    email: 'psillovits1@gmail.com',
-    password: 'Nikolas-0',
-    password_confirmation: 'Nikolas-0',
+    name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
   },
   submit: false,
   loading: false,

@@ -1,9 +1,10 @@
 import React from 'react'
-import { Heading, Text } from '@chakra-ui/react'
+import { Box, Container, Heading, Text } from '@chakra-ui/react'
 export default function About() {
     return (
-        <div className="about">
-            <Heading as={'h3'} mb={'6'}>About Us</Heading>
+        <Box style={{ minHeight:'100vh', background: '#293462' }}>
+        <Container maxW={'container.xl'} px={'4'} py={'8'} height={'full'} pt={'10'} color={'white'}>
+            <Heading as={'h3'} mb={'6'}>About Password Manager</Heading>
 
             <Text mb={'2'}>
                 A password manager is a type of application that helps users to safely store and manage their passwords. In today's digital world, where we use multiple online accounts for different purposes, it can be difficult to remember all the passwords we create. Using the same password for multiple accounts is not secure and can lead to cyberattacks. This is where a password manager comes in handy.
@@ -23,6 +24,7 @@ export default function About() {
             <Text mb={'2'}>
                 In summary, our password manager app is a secure and convenient solution for users who want to safely store and manage their passwords. With advanced encryption techniques, easy-to-use interface, and cross-device synchronization, our app provides users with the peace of mind they need to navigate the online world safely.
             </Text>
-        </div>
+        </Container>
+        </Box>
     )
 }
