@@ -1,22 +1,28 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useNavigate } from 'react-router-dom'
 import { userLogged, userLogout } from '../store/user/actions/user.actions';
 import { selectUser } from '../store/user/reducer/userSlice';
-import { border, Container, Flex } from '@chakra-ui/react';
+import { Container, Flex } from '@chakra-ui/react';
 import image from '../assets/gif/loading-gif.gif'
 
 export default function RootLayout() {
     const isUserLogged = useSelector(selectUser);
     const loading = useSelector((state) => state.user.loading);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        dispatch(userLogout());
+        navigate('/login')
+    }
 
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             dispatch(userLogged());
         }
-    }, [0])
+    }, [dispatch])
 
     return (
         <>
@@ -53,7 +59,7 @@ export default function RootLayout() {
                                         <>
                                             <NavLink to="/dashboard" className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75">Dashboard</NavLink>
                                             <button className="px-3 py-2 flex items-center text-xs uppercase font-bold leading-snug text-white hover:opacity-75"
-                                                onClick={() => dispatch(userLogout())}>Logout</button>
+                                                onClick={handleLogout}>Logout</button>
                                         </>
                                     }
                                 </ul>

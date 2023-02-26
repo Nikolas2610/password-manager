@@ -29,7 +29,7 @@ export default function Login({ onSubmit }) {
                                     {loginFormData.backendErrors &&
                                         <Alert status='error' mb={'3'}>
                                             <AlertIcon />
-                                            <AlertTitle>Form validation error!</AlertTitle>
+                                            <AlertTitle>{loginFormData.backendErrors.error ? 'Form validation error!' : 'Network error'}</AlertTitle>
                                             <AlertDescription>{loginFormData.backendErrors.error}</AlertDescription>
                                         </Alert>
                                     }

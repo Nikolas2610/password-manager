@@ -7,11 +7,10 @@ import {
 import RootLayout from "../layouts/RootLayout";
 import About from "../pages/About";
 import Home from "../pages/Home";
-import Dashboard from "../pages/protected/Dashboard";
 import ProtectedRoutes from "./ProtectedRoutes";
 import LoginContainer from "../store/login/container/login.container";
-import CheckAuth from "./CheckAuth";
 import RegisterContainer from "../store/register/container/register.container";
+import DashboardContainer from "../store/passwords/container/dashboard.container";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -23,7 +22,7 @@ export const router = createBrowserRouter(
                 <Route path="register" element={<RegisterContainer />} />
 
                 <Route element={<ProtectedRoutes />}>
-                    <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="dashboard" element={<DashboardContainer />} />
                 </Route>
             {/* </Route> */}
         </Route>

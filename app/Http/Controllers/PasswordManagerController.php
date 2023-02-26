@@ -47,34 +47,33 @@ class PasswordManagerController extends Controller
     {
         $user = Auth::user();
 
-        $passwordManager = Password::select(
-            'id',
-            'user_id',
-            'title',
-            'username',
-            'website',
-            'notes',
-            'created_at'
-        )->where('user_id', $user->id)->get();
+        $passwordManager = Password::where('user_id', $user->id)
+            ->orderByDesc('created_at')
+            ->get();
+
+        foreach ($passwordManager as $item) {
+            $item->password = $this->encryptPassword($item->password);
+        }
 
         return $passwordManager;
     }
 
-    // TEMP
+    // TODO: REMOVE
     public function getUserFullPasswordData()
     {
         $user = Auth::user();
 
         $passwordManager = Password::where('user_id', $user->id)->get();
 
-        foreach($passwordManager as $item) {
+        foreach ($passwordManager as $item) {
             $item->password = Crypt::decryptString($item->password);
         }
 
         return $passwordManager;
     }
 
-    public function showPassword(Request $request)
+    // TODO: REMOVE
+    private function showPassword(Request $request)
     {
         $validatedData = $request->validate([
             'id' => 'required|numeric',
@@ -97,6 +96,14 @@ class PasswordManagerController extends Controller
         $encrypted = $this->my_encrypt($unhashPassword, $iv);
 
         return response()->json(['encrypted_password' => $encrypted, 'iv' => base64_encode($iv)], 200);
+    }
+
+    private function encryptPassword($password)
+    {
+        $unhashPassword = Crypt::decryptString($password);
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
+        $encrypted = $this->my_encrypt($unhashPassword, $iv);
+        return ['encrypted_password' => $encrypted, 'iv' => base64_encode($iv)];
     }
 
 
