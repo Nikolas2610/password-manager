@@ -1,11 +1,11 @@
 import React from "react"
 import { FormControl, Input, FormErrorMessage, FormLabel, Box, Button, InputRightElement, InputGroup } from '@chakra-ui/react'
 
-export default function InputField({ title, placeholder, value, type, item, onChangeData, errors, rightElementPassword, rightElementAction, showPassword }) {
+export default function InputField({ title, placeholder, value, type, item, onChangeData, errors, rightElementPassword, rightElementAction, showPassword, color = 'black' }) {
     return (
         <Box marginBottom={'3'}>
             <FormControl isInvalid={!!errors}>
-                {title && <FormLabel color={'black'}>{title}</FormLabel>}
+                {title && <FormLabel color={color}>{title}</FormLabel>}
                 <InputGroup>
                     <Input
                         variant='outline'
@@ -20,6 +20,7 @@ export default function InputField({ title, placeholder, value, type, item, onCh
                         type={type}
                         marginBottom={'2'}
                         focusBorderColor={'blue.400'}
+                        color={'black'}
                     />
                     {rightElementPassword &&
                         <InputRightElement width='4.5rem'>

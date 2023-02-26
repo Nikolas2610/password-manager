@@ -58,46 +58,6 @@ class PasswordManagerController extends Controller
         return $passwordManager;
     }
 
-    // TODO: REMOVE
-    public function getUserFullPasswordData()
-    {
-        $user = Auth::user();
-
-        $passwordManager = Password::where('user_id', $user->id)->get();
-
-        foreach ($passwordManager as $item) {
-            $item->password = Crypt::decryptString($item->password);
-        }
-
-        return $passwordManager;
-    }
-
-    // TODO: REMOVE
-    private function showPassword(Request $request)
-    {
-        $validatedData = $request->validate([
-            'id' => 'required|numeric',
-        ]);
-
-        $user = Auth::user();
-
-        $password = Password::select('password')
-            ->where('user_id', $user->id)
-            ->where('id', $validatedData['id'])
-            ->first();
-
-        if (!$password) {
-            return response()->json(['message' => 'password not found'], 404);
-        }
-        $unhashPassword = Crypt::decryptString($password->password);
-
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));
-
-        $encrypted = $this->my_encrypt($unhashPassword, $iv);
-
-        return response()->json(['encrypted_password' => $encrypted, 'iv' => base64_encode($iv)], 200);
-    }
-
     private function encryptPassword($password)
     {
         $unhashPassword = Crypt::decryptString($password);
