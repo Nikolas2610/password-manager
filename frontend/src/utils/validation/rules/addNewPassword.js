@@ -13,6 +13,6 @@ export const addNewPasswordRules = {
         isRequired: true,
     },
     notes: {
-        isRequired: true,
+        isRequired: false,
     }
 }

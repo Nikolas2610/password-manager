@@ -6,6 +6,7 @@ use App\Models\Password;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Str;
 
 class PasswordManagerController extends Controller
 {
@@ -15,13 +16,22 @@ class PasswordManagerController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string',
             'password' => 'required|string',
-            'notes' => 'string',
+            'notes' => 'nullable|string',
             'website' => 'string',
             'username' => 'string',
         ]);
 
         $validatedData['user_id'] = Auth::id();
-        $validatedData['password'] = Crypt::encryptString($validatedData['password']);
+
+        // Encrypt sensitive data fields
+        $sensitiveFields = ['title', 'username', 'notes', 'password', 'website'];
+        foreach ($sensitiveFields as $field) {
+            if (isset($validatedData[$field])) {
+                $validatedData[$field] = Crypt::encryptString($validatedData[$field]);
+            }
+        }
+        // $validatedData['password'] = Crypt::encryptString($validatedData['password']);
+        // $validatedData['username'] = Crypt::encryptString($validatedData['username']);
 
         $password = Password::create($validatedData);
 
@@ -34,10 +44,19 @@ class PasswordManagerController extends Controller
             'title' => 'required|string',
             'username' => 'required|string',
             'website' => 'required|string',
-            'notes' => 'required|string',
+            'notes' => 'nullable|string',
             'password' => 'required|string',
         ]);
-        $validatedData['password'] = Crypt::encryptString($validatedData['password']);
+
+        // Encrypt sensitive data fields
+        $sensitiveFields = ['title', 'username', 'notes', 'password', 'website'];
+        foreach ($sensitiveFields as $field) {
+            if (isset($validatedData[$field])) {
+                $validatedData[$field] = Crypt::encryptString($validatedData[$field]);
+            }
+        }
+
+        // Update the password record
         $password->update($validatedData);
 
         return response()->json(['message' => 'Password updated successfully', 'password' => $password], 200);
@@ -52,6 +71,10 @@ class PasswordManagerController extends Controller
             ->get();
 
         foreach ($passwordManager as $item) {
+            if ($item->website) $item->website = Crypt::decryptString($item->website);
+            if ($item->notes) $item->notes = Crypt::decryptString($item->notes);
+            if ($item->title) $item->title = Crypt::decryptString($item->title);
+            if ($item->username) $item->username = Crypt::decryptString($item->username);
             $item->password = $this->encryptPassword($item->password);
         }
 
