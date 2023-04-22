@@ -3,7 +3,7 @@ import { Box, Container, Heading, Text } from '@chakra-ui/react'
 export default function About() {
     return (
         <Box style={{ minHeight:'100vh', background: '#293462' }}>
-        <Container maxW={'container.xl'} px={'4'} py={'8'} height={'full'} pt={'10'} color={'white'}>
+        <Container maxW={'container.xl'} px={'4'} py={'8'} height={'full'} pt={'20'} color={'white'}>
             <Heading as={'h3'} mb={'6'}>About Password Manager</Heading>
 
             <Text mb={'2'}>

@@ -22,13 +22,10 @@ export default function RootLayout() {
             {loading
                 ?
                 <Loading />
-                // <Flex minH={'100vh'} justify={'center'} alignItems={'center'} bgColor={'cyan.400'}>
-                //     <img src={image} alt="loading" />
-                // </Flex>
                 :
-                <Box position={'relative'}>
+                <Box position={'relative'} h={'100vh'}>
                     <NavBar />
-                    <main>
+                    <main className='h-full' style={{ overflowY: 'auto' }}>
                         <Outlet />
                     </main>
                 </Box>

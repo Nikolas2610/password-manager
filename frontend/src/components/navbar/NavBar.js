@@ -23,7 +23,7 @@ export default function NavBar() {
     }
 
     return (
-        <Box bgColor={'cyan.700'} position={'sticky'} top={'0'} width={'full'}>
+        <Box bgColor={'cyan.700'} position={'fixed'} top={'0'} width={'full'}>
             <Container maxW={'container.xl'} py={'2'} color={'white'}>
                 <Flex justify={'space-between'}>
                     <NavItem to={'/'} activeItem={'/' === location.pathname}>Home</NavItem>

@@ -38,7 +38,7 @@ export default function Dashboard({ onSubmit, onModal, onDelete, onDeleteModal, 
             onDelete={onDelete}
             onModal={onDeleteModal}
           />
-          <Box style={{ background: '#293462' }}>
+          <Box style={{ background: '#293462' }} height={'100vh'} pt={'14'} overflowY={'auto'}>
             <Container maxW={'container.xl'} px={'4'} py={'8'}>
               <Flex justify={'space-between'}>
                 <Heading as={'h3'} size={'xl'} borderBottom={'1px'} color={'white'}>Dashboard</Heading>
