@@ -51,11 +51,11 @@ export default function Register({ onSubmit }) {
                 <InputField
                     title={"Password"}
                     placeholder={"******"}
-                    value={registerFormData.form.password}
+                    value={registerFormData.form.password_confirmation}
                     type={INPUT.PASSWORD}
                     item={'password'}
                     onChangeData={(payload) => dispatch(onChangeValue(payload))}
-                    errors={registerFormData.errors?.password}
+                    errors={registerFormData.errors?.password_confirmation}
                     color={'white'}
                 />
 
