@@ -51,7 +51,7 @@ export default function Register({ onSubmit }) {
                 <InputField
                     title={"Password"}
                     placeholder={"******"}
-                    value={registerFormData.form.password_confirmation}
+                    value={registerFormData.form.password}
                     type={INPUT.PASSWORD}
                     item={'password'}
                     onChangeData={(payload) => dispatch(onChangeValue(payload))}
@@ -62,7 +62,7 @@ export default function Register({ onSubmit }) {
                 <InputField
                     title={"Confirm Password"}
                     placeholder={"******"}
-                    value={registerFormData.form.password}
+                    value={registerFormData.form.password_confirmation}
                     type={INPUT.PASSWORD}
                     item={'password_confirmation'}
                     onChangeData={(payload) => dispatch(onChangeValue(payload))}
