@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // const toast = useToast();
 const axiosClient = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: "http://localhost:8000/api",
     headers: {
         'private-app-key': process.env.REACT_APP_PRIVATE_APP_KEY
     }
